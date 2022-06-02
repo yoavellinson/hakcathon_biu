@@ -13,8 +13,10 @@ app = Flask(__name__)
 api = Api(app)
 
 class hazard_classificator(Resource):
+    def post(self):
+        return 'HI DUDU'
     def get(self):
-        return 'HELLO'
+        return 'HELLO ben '
 
     def put(self):
         data = json.loads(request.get_json())
