@@ -4,12 +4,12 @@ from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
 import json
 from datetime import datetime
+from flask_sqlalchemy_report import Reporter
 
 
 
-HAZARDS = {'1':'trash', '2':'leafs','3':'pothole'}
 PORT = 5001
-URL ='10.176.94.15'
+URL ='192.168.91.178'
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
@@ -67,22 +67,28 @@ class hazard_classificator(Resource):
                             user_id = User.query.filter_by(username = data['user']).first().id)
             db.session.add(tmp_post)
             db.session.commit()
+            print(f"hazard added{data['hazard_type']}")
             return 'Hazard added'
 
 
 api.add_resource(hazard_classificator, '/')
-@app.route('/display')
-def hello():
-    return render_template('index.html')
 
+@app.route('/summary') 
+def index():
+    rows = User.query.all()
+    return render_template('main_summary.html',
+                            title='Overview',
+                            rows=rows)
+
+@app.route('/car1') 
+def new_index():
+    rows = Post.query.filter_by(user_id=12).all()
+    hazards = ['Garbage','Prune','Garbage Bag','Small Trash','Furneture']
+    return render_template('car_summary.html',
+                            title='Overview',
+                            rows=rows,
+                            hazards = hazards)
 if __name__ == '__main__':
     app.run(host = URL,port=PORT,debug=True)
 
 
-#TODO:
-    '''
-    1. get data
-    2. clasify for the correct service provider and the eurgency
-    3. server sends request to closest client
-    4. DB gets a new line with the name of the client that should do the thing and has status unknown
-    '''

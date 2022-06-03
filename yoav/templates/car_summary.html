@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataEar</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/index.css') }}">
+
+</head>
+
+<body style="background-color:white;">
+    <h1>Hello Mr.Pakach </h1>
+    <p>Your assinments for today:</p>
+<table style="border: 1px solid; width: 30%;">
+    <tr> 
+        <th style="border: 1px solid; text-align: center;">ID</th>
+        <th style="border: 1px solid; text-align: center;">Hazard Type</th>
+        <th style="border: 1px solid; text-align: center;">location X</th>
+        <th style="border: 1px solid; text-align: center;">location Y</th>
+        <th style="border: 1px solid; text-align: center;">Time Posted</th>
+
+
+    </tr>
+    {% for row in rows %}
+<tr>
+    <td style="border: 1px solid; text-align: center;">{{ row.id }}</a></td>
+    <td style="border: 1px solid; text-align: center;">{{ hazards[(row.title)-1] }}</td>
+    <td style="border: 1px solid; text-align: center;">{{ row.location_X }}</a></td>
+    <td style="border: 1px solid; text-align: center;">{{ row.location_Y }}</a></td>
+    <td style="border: 1px solid; text-align: center;">{{ row.time_posted }}</a></td>
+</tr>
+    {% endfor %}
+
+</body>
+</html>
