@@ -18,24 +18,34 @@ class car():
         self.status = False
         self.name = name
         self.gps_x,self.gps_y = gps_mock()
-        self.req = {"id": self.name,"time":time.localtime(), "gps_x":self.gps_x,"gps_y":self.gps_y , "hazard_type": None, "taken_by_me": None}
+        self.req = {"user": self.name, "gps_x":self.gps_x,"gps_y":self.gps_y , "hazard_type": None, "taken_by_me": None}
         self.i = 0
     def start(self):
         self.status = True
     
     def stream(self):
         time.sleep(1)
-        if self.i == 10:
+        if self.i == 4:
             self.req["hazard_type"] = 1
+            self.req["user"]='Ben'
+        if self.i == 3:
+            self.req["hazard_type"] = 3
+            self.req['user'] = 'Yoav'
+        if self.i == 2:
+            self.req["hazard_type"] = 2
+            self.req['user'] = 'Netanel'
+        if self.i == 1:
+            self.req["hazard_type"] = 2
+            self.req['user'] = 'DUDI'
         response = requests.put(url=SERVER,json=json.dumps(self.req))
         print(response.json())
         self.i +=1
-        if response.json() == 'off':
-            self.status = False
+        # if response.json() == 'Hazard added':
+        #     self.status = False
 
 
 if __name__ == "__main__":
-    p = car(name = 'Yoav')
+    p = car(name = 'yoav')
     p.start()
 
     while p.status:
